@@ -7,9 +7,12 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "db:generate": "drizzle-kit generate",
+    "db:push": "drizzle-kit push"
   },
   "dependencies": {
+    "drizzle-orm": "^0.40.0",
     "nuxt": "^3.15.4",
     "vue": "latest",
     "vue-router": "latest"
@@ -17,6 +20,9 @@
   "packageManager": "pnpm@9.15.4+sha512.b2dc20e2fc72b3e18848459b37359a32064663e5627a51e4c74b2c29dd8e8e0491483c3abb40789cfd578bf362fb6ba8261b05f0387d76792ed6e23ea3b1b6a0",
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.13.1",
-    "nuxt-auth-utils": "^0.5.16"
+    "drizzle-kit": "^0.30.5",
+    "nuxt-auth-utils": "^0.5.16",
+    "postgres": "^3.4.5",
+    "zod": "^3.24.2"
   }
 }
