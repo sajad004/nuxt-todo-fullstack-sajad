@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { z } from 'zod'
 
-const { loggedIn, fetch } = useUserSession()
+const { fetch } = useUserSession()
 
 const router = useRouter()
 
@@ -39,27 +39,25 @@ const signup = async () => {
 				password: signupData.value.password,
 			},
 		})
-		if (response.statusCode === 400) {
+		if (response?.statusCode === 400) {
 			alert(response.statusMessage)
 		} else {
 			fetch()
 			router.push('/')
 		}
-	} catch (error) {
-		alert(error.message)
+	} catch (error: unknown) {
+		if (error instanceof Error) {
+			alert(error.message)
+		} else {
+			alert('An unknown error occurred')
+		}
 	}
 }
-
-onBeforeMount(() => {
-	if (loggedIn.value) {
-		router.push('/')
-	}
-})
 </script>
 <template>
-	<div class="flex flex-col items-center justify-center h-[calc(100vh-72px)]">
+	<div class="flex flex-col items-center justify-center h-[calc(100vh-72px)] w-full">
 		<h1 class="text-2xl font-bold mb-4">Signup</h1>
-		<form class="flex flex-col gap-4" @submit.prevent="signup">
+		<form class="flex flex-col gap-4 w-full max-w-md" @submit.prevent="signup">
 			<input
 				type="text"
 				v-model="signupData.firstName"
