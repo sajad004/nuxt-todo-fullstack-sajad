@@ -3,6 +3,10 @@ import { z } from 'zod'
 
 const { fetch } = useUserSession()
 
+useHead({
+	title: 'Signup',
+})
+
 const router = useRouter()
 
 const signupSchema = z.object({

@@ -1,5 +1,9 @@
 <script lang="ts" setup>
 const { loggedIn, session } = useUserSession()
+
+useHead({
+	title: 'Home',
+})
 </script>
 
 <template>

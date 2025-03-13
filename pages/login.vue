@@ -2,6 +2,10 @@
 import { z } from 'zod'
 const { fetch } = useUserSession()
 
+useHead({
+	title: 'Login',
+})
+
 const router = useRouter()
 
 const loginSchema = z.object({
