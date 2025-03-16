@@ -12,7 +12,7 @@ export default defineEventHandler(async (event) => {
     email: z.string().email(),
     password: z.string().min(8, "Password must be at least 8 characters long"),
     firstName: z.string().min(2, "First Name must be at least 2 characters long"),
-    lastName: z.string().min(5, "Last Name must be at least 5 characters long"),
+    lastName: z.string().min(2, "Last Name must be at least 2 characters long"),
   })
 
   try {
