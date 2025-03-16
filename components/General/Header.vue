@@ -1,9 +1,11 @@
 <script setup>
 const { loggedIn, clear } = useUserSession()
 
-const logout = () => {
-	clear()
-	router.push('/login')
+const router = useRouter()
+
+const logout = async () => {
+	await clear()
+	await router.push('/login')
 }
 </script>
 <template>
