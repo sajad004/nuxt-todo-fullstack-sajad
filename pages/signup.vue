@@ -69,7 +69,7 @@ const signup = async () => {
 }
 </script>
 <template>
-	<div class="flex flex-col items-center justify-center h-[calc(100vh-72px)] w-full">
+	<div class="flex flex-col items-center justify-center h-[calc(100vh-88px)] w-full">
 		<h1 class="text-2xl font-bold mb-4">Signup</h1>
 		<form class="flex flex-col gap-4 w-full max-w-md" @submit.prevent="signup">
 			<input
