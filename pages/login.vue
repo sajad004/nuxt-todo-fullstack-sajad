@@ -2,6 +2,9 @@
 import { z } from 'zod'
 const { fetch } = useUserSession()
 
+const loading = ref(false)
+const errorMessage = ref<string | undefined>(undefined)
+
 useHead({
 	title: 'Login',
 })
@@ -10,7 +13,7 @@ const router = useRouter()
 
 const loginSchema = z.object({
 	email: z.string().email(),
-	password: z.string().min(8),
+	password: z.string().min(8, 'Password must be at least 8 characters long'),
 })
 
 const loginData = ref({
@@ -20,10 +23,16 @@ const loginData = ref({
 
 const login = async () => {
 	try {
-		loginSchema.parse({
+		loading.value = true
+		const parseResult = loginSchema.safeParse({
 			email: loginData.value.email,
 			password: loginData.value.password,
 		})
+		if (!parseResult.success) {
+			loading.value = false
+			errorMessage.value = parseResult.error.errors[0].message
+			return
+		}
 		const response = await $fetch('/api/auth/login', {
 			method: 'POST',
 			body: {
@@ -32,16 +41,19 @@ const login = async () => {
 			},
 		})
 		if (response?.statusCode === 400) {
-			alert(response.statusMessage)
+			loading.value = false
+			errorMessage.value = response.statusMessage
 		} else {
-			fetch()
-			router.push('/')
+			await fetch()
+			await router.push('/')
+			loading.value = false
 		}
 	} catch (error: unknown) {
+		loading.value = false
 		if (error instanceof Error) {
-			alert(error.message)
+			errorMessage.value = 'Invalid email or password'
 		} else {
-			alert('An unknown error occurred')
+			errorMessage.value = 'An unknown error occurred'
 		}
 	}
 }
@@ -54,15 +66,27 @@ const login = async () => {
 				type="email"
 				v-model="loginData.email"
 				placeholder="Email"
-				class="border-2 border-gray-300 rounded-md p-2"
+				:disabled="loading"
+				class="border-2 border-gray-300 rounded-md p-2 disabled:cursor-not-allowed"
 			/>
 			<input
 				type="password"
 				v-model="loginData.password"
 				placeholder="Password"
-				class="border-2 border-gray-300 rounded-md p-2"
+				:disabled="loading"
+				class="border-2 border-gray-300 rounded-md p-2 disabled:cursor-not-allowed"
 			/>
-			<button type="submit" class="bg-green-500 text-white rounded-md p-2">Login</button>
+			<div class="flex items-center justify-center" v-if="errorMessage">
+				<p class="text-red-500">{{ errorMessage }}</p>
+			</div>
+			<button
+				type="submit"
+				class="bg-green-500 text-white rounded-md p-2 disabled:cursor-not-allowed"
+				:disabled="loading"
+				:class="{ 'opacity-50': loading }"
+			>
+				{{ loading ? 'Logging in...' : 'Login' }}
+			</button>
 		</form>
 		<p class="text-sm text-gray-500 mt-4">
 			Don't have an account? <a href="/signup" class="text-blue-500">Signup</a>

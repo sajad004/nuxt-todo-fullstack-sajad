@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { z } from 'zod'
-
 const { fetch } = useUserSession()
+
+const loading = ref(false)
+const errorMessage = ref<string | undefined>(undefined)
 
 useHead({
 	title: 'Signup',
@@ -10,11 +12,11 @@ useHead({
 const router = useRouter()
 
 const signupSchema = z.object({
-	firstName: z.string().min(2),
-	lastName: z.string().min(5),
-	email: z.string().email(),
-	password: z.string().min(8),
-	confirmPassword: z.string().min(8),
+	firstName: z.string().min(2, 'First name must be at least 2 characters long'),
+	lastName: z.string().min(2, 'Last name must be at least 2 characters long'),
+	email: z.string().email('Invalid email address'),
+	password: z.string().min(8, 'Password must be at least 8 characters long'),
+	confirmPassword: z.string().min(8, 'Passwords should match'),
 })
 
 const signupData = ref({
@@ -27,13 +29,19 @@ const signupData = ref({
 
 const signup = async () => {
 	try {
-		signupSchema.parse({
+		loading.value = true
+		const parseResult = signupSchema.safeParse({
 			firstName: signupData.value.firstName,
 			lastName: signupData.value.lastName,
 			email: signupData.value.email,
 			password: signupData.value.password,
 			confirmPassword: signupData.value.confirmPassword,
 		})
+		if (!parseResult.success) {
+			loading.value = false
+			errorMessage.value = parseResult.error.errors[0].message
+			return
+		}
 		const response = await $fetch('/api/auth/signup', {
 			method: 'POST',
 			body: {
@@ -44,16 +52,18 @@ const signup = async () => {
 			},
 		})
 		if (response?.statusCode === 400) {
-			alert(response.statusMessage)
+			loading.value = false
+			errorMessage.value = response.statusMessage
 		} else {
-			fetch()
-			router.push('/')
+			await fetch()
+			await router.push('/')
+			loading.value = false
 		}
 	} catch (error: unknown) {
 		if (error instanceof Error) {
-			alert(error.message)
+			errorMessage.value = error.message
 		} else {
-			alert('An unknown error occurred')
+			errorMessage.value = 'An unknown error occurred'
 		}
 	}
 }
