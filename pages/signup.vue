@@ -70,9 +70,12 @@ const signup = async () => {
 </script>
 <template>
 	<div class="flex flex-col items-center justify-center h-[calc(100vh-88px)] w-full">
-		<h1 class="text-2xl font-bold mb-4">Signup</h1>
-		<form class="flex flex-col gap-4 w-full max-w-md" @submit.prevent="signup">
-			<input
+		<UCard class="w-full max-w-md p-6">
+			<template #header>
+				<h1 class="text-2xl font-bold">Signup</h1>
+			</template>
+			<form class="flex flex-col gap-4 w-full max-w-md" @submit.prevent="signup">
+				<input
 				type="text"
 				v-model="signupData.firstName"
 				placeholder="First Name"
@@ -102,7 +105,8 @@ const signup = async () => {
 				placeholder="Confirm Password"
 				class="border-2 border-gray-300 rounded-md p-2"
 			/>
-			<button type="submit" class="bg-green-500 text-white rounded-md p-2">Signup</button>
-		</form>
+				<button type="submit" class="bg-green-500 text-white rounded-md p-2">Signup</button>
+			</form>
+		</UCard>
 	</div>
 </template>
