@@ -58,7 +58,7 @@ const onSubmit = async () => {
 			</template>
 			<UForm :schema="schema" :state="state" class="space-y-4" @submit="onSubmit">
 				<UFormField name="email">
-					<UInput v-model="state.email" placeholder="Email" :disabled="loading" />
+					<UInput v-model="state.email" placeholder="Email" :disabled="loading" class="w-full" size="xl" />
 				</UFormField>
 
 				<UFormField name="password">
@@ -67,10 +67,14 @@ const onSubmit = async () => {
 						type="password"
 						placeholder="Password"
 						:disabled="loading"
+						class="w-full"
+						size="xl"
 					/>
 				</UFormField>
 
-				<UButton type="submit" :loading="loading"> Submit </UButton>
+				<div class="flex justify-end mt-5">
+					<UButton type="submit" :loading="loading" size="xl" class="px-5 py-2"> Submit </UButton>
+				</div>
 			</UForm>
 		</UCard>
 	</div>
