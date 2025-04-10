@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 const { loggedIn, session } = useUserSession()
-
+const todos = ref([])
 useHead({
 	title: 'Home',
 })
@@ -13,10 +13,12 @@ useHead({
 			<span class="font-bold">{{ session?.user?.firstName + ' ' + session?.user?.lastName }}</span>
 		</h1>
 		<br />
-		<pre class="text-sm font-mono whitespace-pre-wrap bg-gray-100 p-4 rounded-md">
-			{{ JSON.stringify(session, null, 2) }}
-		</pre
-		>
+		<p v-show="todos.length === 0" class="text-gray-500 text-bold text-2xl">No tasks to show!</p>
+
+		<ul class="flex flex-col gap-5">
+			<TodoItem v-for="todo in todos" :key="todo.id" :todo="todo" @delete="(id) => todos.splice(id, 1)" />
+		</ul>
+		<TodoNew />
 	</div>
 	<div v-else>
 		<h1 class="text-2xl font-bold">Please login to continue</h1>
