@@ -123,7 +123,7 @@ const signup = async () => {
 					/>
 				</UFormField>
 			    <div class="flex justify-end items-center mt-5">
-					<Nuxtlink to="/login" size="xl" class="text-sm text-blue-600 hover:underline  cursor:pointer mr-5"> already have account?  </Nuxtlink>
+					<NuxtLink to="/login" size="xl" class="text-sm text-blue-600 font-semibold hover:underline  cursor:pointer mr-5"> <span class=" text-gray-500 font-normal">Already have account?</span> Login  </NuxtLink>
 					<UButton type="submit" :loading="loading" size="xl" class="px-5 py-2"> Signup </UButton>
 				</div>
 			</Uform>
