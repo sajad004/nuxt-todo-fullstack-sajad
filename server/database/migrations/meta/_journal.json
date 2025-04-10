@@ -8,6 +8,13 @@
       "when": 1741079220461,
       "tag": "0000_curious_charles_xavier",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1744279587025,
+      "tag": "0001_awesome_the_stranger",
+      "breakpoints": true
     }
   ]
 }
