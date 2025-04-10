@@ -74,39 +74,59 @@ const signup = async () => {
 			<template #header>
 				<h1 class="text-2xl font-bold">Signup</h1>
 			</template>
-			<form class="flex flex-col gap-4 w-full max-w-md" @submit.prevent="signup">
-				<input
-				type="text"
-				v-model="signupData.firstName"
-				placeholder="First Name"
-				class="border-2 border-gray-300 rounded-md p-2"
-			/>
-			<input
-				type="text"
-				v-model="signupData.lastName"
-				placeholder="Last Name"
-				class="border-2 border-gray-300 rounded-md p-2"
-			/>
-			<input
-				type="email"
-				v-model="signupData.email"
-				placeholder="Email"
-				class="border-2 border-gray-300 rounded-md p-2"
-			/>
-			<input
-				type="password"
-				v-model="signupData.password"
-				placeholder="Password"
-				class="border-2 border-gray-300 rounded-md p-2"
-			/>
-			<input
-				type="password"
-				v-model="signupData.confirmPassword"
-				placeholder="Confirm Password"
-				class="border-2 border-gray-300 rounded-md p-2"
-			/>
-				<button type="submit" class="bg-green-500 text-white rounded-md p-2">Signup</button>
-			</form>
+			<Uform :schema="schema" :state="state" class="space-y-4" @submit.prevent="signup">
+				<UFormField name="firstName">
+					<UInput
+						v-model="signupData.firstName"
+						placeholder="First Name"
+						class="w-full"
+						size="xl"
+					/>
+				</UFormField>
+
+				<UFormField name="lastName">
+					<UInput
+						v-model="signupData.lastName"
+						placeholder="Last Name"
+						class="w-full"
+						size="xl"
+					/>
+				</UFormField>
+
+				<UFormField name="email">
+					<UInput
+						v-model="signupData.email"
+						type="email"
+						placeholder="Email"
+						class="w-full"
+						size="xl"
+					/>
+				</UFormField>
+
+				<UFormField name="password">
+					<UInput
+						v-model="signupData.password"
+						type="password"
+						placeholder="Password"
+						class="w-full"
+						size="xl"
+					/>
+				</UFormField>
+
+				<UFormField name="confirmPassword">
+					<UInput
+						v-model="signupData.confirmPassword"
+						type="password"
+						placeholder="Confirm Password"
+						class="w-full"
+						size="xl"
+					/>
+				</UFormField>
+			    <div class="flex justify-end items-center mt-5">
+					<NuxtLink to="/login" size="xl" class="text-sm text-blue-600 font-semibold hover:underline  cursor:pointer mr-5"> <span class=" text-gray-500 font-normal">Already have account?</span> Login  </NuxtLink>
+					<UButton type="submit" :loading="loading" size="xl" class="px-5 py-2"> Signup </UButton>
+				</div>
+			</Uform>
 		</UCard>
 	</div>
 </template>
