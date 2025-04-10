@@ -74,7 +74,7 @@ const signup = async () => {
 			<template #header>
 				<h1 class="text-2xl font-bold">Signup</h1>
 			</template>
-			<Uform :schema="schema" :state="state" class="space-y-4" @submit.prevent="signup">
+			<UForm :schema="schema" :state="state" class="space-y-4" @submit.prevent="signup">
 				<UFormField name="firstName">
 					<UInput
 						v-model="signupData.firstName"
@@ -122,11 +122,14 @@ const signup = async () => {
 						size="xl"
 					/>
 				</UFormField>
-			    <div class="flex justify-end items-center mt-5">
-					<NuxtLink to="/login" size="xl" class="text-sm text-blue-600 font-semibold hover:underline  cursor:pointer mr-5"> <span class=" text-gray-500 font-normal">Already have account?</span> Login  </NuxtLink>
-					<UButton type="submit" :loading="loading" size="xl" class="px-5 py-2"> Signup </UButton>
-				</div>
-			</Uform>
+				<UButton type="submit" :loading="loading" size="xl" class="w-full py-3 justify-center">Signup</UButton>
+			</UForm>
+			<template #footer>
+				<p>
+					<span class="text-gray-500 font-normal">Already have an account?</span>
+					<UButton to="/login" variant="link">Login</UButton>
+				</p>
+			</template>
 		</UCard>
 	</div>
 </template>

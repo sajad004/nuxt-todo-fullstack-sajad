@@ -72,9 +72,7 @@ const onSubmit = async () => {
 					/>
 				</UFormField>
 
-				<div class="flex flex-col items-center mt-5">
-					<UButton type="submit" :loading="loading" size="xl" class="w-full py-3 justify-center"> Submit </UButton>
-				</div>
+				<UButton type="submit" :loading="loading" size="xl" class="w-full py-3 justify-center">Submit</UButton>
 			</UForm>
 			<template #footer>
 				<p>
