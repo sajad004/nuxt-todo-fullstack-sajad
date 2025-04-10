@@ -74,12 +74,14 @@ const onSubmit = async () => {
 
 				<div class="flex flex-col items-center mt-5">
 					<UButton type="submit" :loading="loading" size="xl" class="w-full py-3 justify-center"> Submit </UButton>
-					<NuxtLink to="/signup" class="mt-4 text-sm text-center">
-						<span class="text-gray-500 font-normal">Don't have any account?</span>
-						<span class="text-blue-600 font-semibold hover:underline cursor-pointer"> SignUp</span>
-					</NuxtLink>
 				</div>
 			</UForm>
+			<template #footer>
+				<p>
+					<span class="text-gray-500 font-normal">Don't have any account?</span>
+					<UButton to="/signup" variant="link">Signup</UButton>
+				</p>
+			</template>
 		</UCard>
 	</div>
 </template>
