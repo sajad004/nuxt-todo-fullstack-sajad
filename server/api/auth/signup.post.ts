@@ -1,5 +1,5 @@
 // /api/auth/signup.post.ts
-import { useDrizzle, tables } from '~/server/utils/drizzle'
+import { db, tables } from '~/server/utils/drizzle'
 import { eq } from 'drizzle-orm'
 import { z, ZodError } from 'zod'
 
@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
     userSchema.parse({ email, password, firstName, lastName })
 
     // Check if user already exists
-    const user = await useDrizzle().select().from(tables.users).where(eq(tables.users.email, email))
+    const user = await db.select().from(tables.users).where(eq(tables.users.email, email))
     if (user[0]) {
       return createError({
         statusCode: 400,
@@ -32,7 +32,7 @@ export default defineEventHandler(async (event) => {
     const hashedPassword = await hashPassword(password)
 
     // Create user
-    const newUser = await useDrizzle().insert(tables.users).values({ email, password: hashedPassword, firstName, lastName }).returning()
+    const newUser = await db.insert(tables.users).values({ email, password: hashedPassword, firstName, lastName }).returning()
 
     if (!newUser) {
       return createError({

@@ -1,8 +1,23 @@
 // TODO: Implement get todos for a user
-import { useDrizzle, tables } from '~/server/utils/drizzle'
+import { db, tables, type Todo } from '~/server/utils/drizzle'
+import { eq } from 'drizzle-orm'
 
 export default defineEventHandler(async (event) => {
-  const todos = await useDrizzle().select().from(tables.todos)
+  // Check if user is authenticated
+  const session = await getUserSession(event)
+  if (!session) {
+    throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
+  }
+
+  // Get user id
+  const userId = session.user.id
+
+  console.log(userId)
+
+  // Get todos
+  const todos: Todo[] = await db.query.todos.findMany({
+    where: eq(tables.todos.userId, userId),
+  })
 
   return todos
 })

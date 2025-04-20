@@ -1,8 +1,13 @@
 <script lang="ts" setup>
 const { loggedIn, session } = useUserSession()
-const todos = ref([])
+const todos = ref<Todo[]>([])
 useHead({
 	title: 'Home',
+})
+
+onMounted(async () => {
+	const { data } = await useFetch('/api/todos')
+	todos.value = data.value
 })
 </script>
 
@@ -15,9 +20,9 @@ useHead({
 		<br />
 		<p v-show="todos.length === 0" class="text-gray-500 text-bold text-2xl">No tasks to show!</p>
 
-		<ul class="flex flex-col gap-5">
+		<div class="flex flex-col gap-5">
 			<TodoItem v-for="todo in todos" :key="todo.id" :todo="todo" @delete="(id) => todos.splice(id, 1)" />
-		</ul>
+		</div>
 		<TodoNew />
 	</div>
 	<div v-else>

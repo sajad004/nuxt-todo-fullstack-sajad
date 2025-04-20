@@ -1,6 +1,7 @@
 // /api/auth/login.post.ts
 import { z, ZodError } from 'zod'
 import { eq } from 'drizzle-orm'
+import { db, tables, type User } from '~/server/utils/drizzle'
 
 export default defineEventHandler(async (event) => {
   // Read body
@@ -17,8 +18,10 @@ export default defineEventHandler(async (event) => {
     userSchema.parse({ email, password })
 
     // Check if user exists
-    const getUserFromDb = await useDrizzle().select().from(tables.users).where(eq(tables.users.email, email))
-    const user = getUserFromDb[0]
+    const getUserFromDb: User | undefined = await db.query.users.findFirst({
+      where: eq(tables.users.email, email),
+    })
+    const user = getUserFromDb
     if (!user) {
       return createError({
         statusCode: 400,
@@ -37,6 +40,7 @@ export default defineEventHandler(async (event) => {
     // Set user session
     await setUserSession(event, {
       user: {
+        id: user.id,
         email: user.email,
         firstName: user.firstName,
         lastName: user.lastName,
