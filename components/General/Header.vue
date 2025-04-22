@@ -20,7 +20,7 @@ const items = [
 ]
 </script>
 <template>
-	<header class="fixed top-0 left-0 right-0">
+	<header class="fixed top-0 left-0 right-0 z-50 bg-white/40 dark:bg-gray-900/40 backdrop-blur-sm shadow-sm">
 		<div class="max-w-4xl mx-auto w-full flex justify-between items-center py-5">
 			<ULink to="/">
 				<h1 class="text-2xl font-bold text-gray-800 dark:text-gray-200">
