@@ -69,7 +69,7 @@ const signup = async () => {
 }
 </script>
 <template>
-	<div class="flex flex-col items-center justify-center h-[calc(100vh-88px)] w-full">
+	<div class="flex flex-col items-center justify-center h-[calc(100vh-96px)] w-full">
 		<UCard class="w-full max-w-md p-6">
 			<template #header>
 				<h1 class="text-2xl font-bold">Signup</h1>

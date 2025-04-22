@@ -27,14 +27,14 @@ const refreshTodos = () => {
 			<UProgress animation="swing" />
 		</div>
 		<div v-else class="flex flex-col gap-5">
+			<!-- New task form -->
+			<TodoNew @refresh="refreshTodos" />	
 			<!-- No tasks to show -->
-			<p v-if="todos.length === 0" class="text-gray-500 text-bold text-2xl">No tasks to show!</p>
+			<p v-if="todos.length === 0" class="text-gray-500 text-bold text-2xl text-center">No tasks to show!</p>
 			<!-- Tasks list -->
 			<div v-else>
 				<TodoItem v-for="todo in todos" :key="todo.id" :todo="todo" @delete="(id) => todos.splice(id, 1)" />
 			</div>
-			<!-- New task form -->
-			<TodoNew @refresh="refreshTodos" />
 		</div>
 		<!-- Error -->
 		<div v-if="status === 'error'" class="flex justify-center items-center h-screen">
