@@ -10,7 +10,6 @@ const { session } = useUserSession()
 const { data: todos, status, refresh } = await useFetch<Todo[]>('/api/todos')
 
 const refreshTodos = () => {
-	console.log('refreshing todos')
 	refresh()
 }
 </script>
@@ -33,7 +32,7 @@ const refreshTodos = () => {
 			<p v-if="todos.length === 0" class="text-gray-500 text-bold text-2xl text-center">No tasks to show!</p>
 			<!-- Tasks list -->
 			<div v-else>
-				<TodoItem v-for="todo in todos" :key="todo.id" :todo="todo" @delete="(id) => todos.splice(id, 1)" />
+				<TodoItem v-for="todo in todos" :key="todo.id" :todo="todo" @delete="deleteTodo(todo.id)" />
 			</div>
 		</div>
 		<!-- Error -->
