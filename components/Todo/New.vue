@@ -1,6 +1,6 @@
-<script setup>
-	import type { FormSubmitEvent } from '@nuxt/ui'
-	import { z } from 'zod'
+<script setup lang="ts">
+import * as z from 'zod'
+import type { FormSubmitEvent } from '@nuxt/ui'
 
 	const toast = useToast()
 
@@ -8,20 +8,27 @@
 		newTodo: z.string().min(3, 'New todo is required'),
 	})
 
-	type Schema = z.infer<typeof schema>
+	type Schema = z.output<typeof schema>
 
-	const state = reactive({
-		newTodo: '',
+	const state = reactive<Partial<Schema>>({
+		newTodo: undefined,
 	})
 
+	const emit = defineEmits(['refresh'])
+
 	const addNewTodo = async (event: FormSubmitEvent<Schema>) => {
-		await useFetch('/api/todos', {
+		await $fetch('/api/todos', {
 			method: 'POST',
 			body: {
-				text: state.newTodo,
+				text: event.data.newTodo,
 			},
 		})
 		toast.add({ title: 'Success', description: 'New todo added', color: 'success' })
+		clearInput()
+		emit('refresh')
+	}
+
+	const clearInput = () => {
 		state.newTodo = ''
 	}
 </script>
@@ -34,9 +41,9 @@
 	>
 		<UInput
 			type="text"
-			v-model="newTodo"
+			v-model="state.newTodo"
 			placeholder="New Task ..."
-			@keyup.ctrl.delete="newTodo = ''"
+			@keyup.ctrl.delete="clearInput"
 			class="w-80"
 		/>
 		<p class="text-xs text-gray-500">
