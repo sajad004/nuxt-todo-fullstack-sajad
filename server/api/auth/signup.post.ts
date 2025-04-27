@@ -44,6 +44,7 @@ export default defineEventHandler(async (event) => {
     // Set user session
     await setUserSession(event, {
       user: {
+        id: newUser[0].id,
         email: email,
         firstName: firstName,
         lastName: lastName,

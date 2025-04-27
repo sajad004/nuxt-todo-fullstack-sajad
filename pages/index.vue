@@ -7,6 +7,14 @@ useHead({
 
 const { session } = useUserSession()
 
+// try {
+// 	const { data, status, refresh } = await useFetch<Todo[]>('/api/todos')
+// } catch (error) {
+// 	console.error(error)
+// } finally {
+// 	todos.value = data.value
+// }
+
 const { data: todos, status, refresh } = await useFetch<Todo[]>('/api/todos')
 
 const refreshTodos = () => {
@@ -25,7 +33,7 @@ const refreshTodos = () => {
 		<div v-if="status === 'pending'" class="flex justify-center items-center h-screen">
 			<UProgress animation="swing" />
 		</div>
-		<div v-else class="flex flex-col gap-5">
+		<div v-if="status === 'success' && todos" class="flex flex-col gap-5">
 			<!-- New task form -->
 			<TodoNew @refresh="refreshTodos" />	
 			<!-- No tasks to show -->
@@ -36,7 +44,7 @@ const refreshTodos = () => {
 			</div>
 		</div>
 		<!-- Error -->
-		<div v-if="status === 'error'" class="flex justify-center items-center h-screen">
+		<div v-if="status === 'error'" class="flex flex-col gap-5 justify-center items-center h-screen">
 			<p class="text-red-500 text-bold text-2xl">Error fetching todos</p>
 			<UButton @click="refresh">Refresh</UButton>
 		</div>

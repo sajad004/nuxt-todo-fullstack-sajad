@@ -8,11 +8,6 @@ export default defineEventHandler(async (event) => {
   const { id, text, completed } = await readBody(event)
   const session = await getUserSession(event)
 
-  // Check if user is authenticated
-  if (!session) {
-    throw createError({ statusCode: 401, statusMessage: 'Unauthorized' })
-  }
-
   // Get user id
   const userId = session.user.id
 

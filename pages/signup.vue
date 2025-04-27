@@ -74,7 +74,7 @@ const signup = async () => {
 			<template #header>
 				<h1 class="text-2xl font-bold">Signup</h1>
 			</template>
-			<UForm :schema="schema" :state="state" class="space-y-4" @submit.prevent="signup">
+			<UForm :schema="signupSchema" :state="signupData" class="space-y-4" @submit="signup">
 				<UFormField name="firstName">
 					<UInput
 						v-model="signupData.firstName"
