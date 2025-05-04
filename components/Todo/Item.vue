@@ -46,8 +46,8 @@
 </script>
 
 <template>
-	<UCard class="mb-5">
-		<div class="flex items-center justify-between gap-2 w-full">
+	<UCard class="mb-5 ">
+		<div class="flex items-center justify-between gap-2 w-full shadow-none">
 			<UCheckbox v-model="props.todo.completed" />
 			<input
 				ref="inputRef"
