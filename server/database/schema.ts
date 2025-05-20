@@ -19,6 +19,7 @@ export const usersRelations = relations(users, ({ many }) => ({
 export const todos = pgTable('todos', {
   id: serial('id').primaryKey(),
   text: text('text').notNull(),
+  description: text('description'),
   completed: boolean('completed').notNull().default(false),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),

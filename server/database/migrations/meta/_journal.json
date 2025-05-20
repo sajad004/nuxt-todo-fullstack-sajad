@@ -15,6 +15,13 @@
       "when": 1744279587025,
       "tag": "0001_awesome_the_stranger",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1747732955506,
+      "tag": "0002_sour_skreet",
+      "breakpoints": true
     }
   ]
 }
