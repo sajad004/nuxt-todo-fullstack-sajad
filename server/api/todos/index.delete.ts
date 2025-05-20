@@ -25,24 +25,24 @@ export default defineEventHandler(async (event) => {
     })
 
     if (!todo) {
-      throw createError({ statusCode: 404, statusMessage: 'Todo not found' })
+      throw createError({ statusCode: 404, message: 'Todo not found' })
     }
 
     // Check if user is owner of todo
     if (todo.userId !== userId) {
-      throw createError({ statusCode: 403, statusMessage: 'Forbidden' })
+      throw createError({ statusCode: 403, message: 'Forbidden' })
     }
 
     // Update todo
     await db.delete(tables.todos).where(eq(tables.todos.id, id))
 
-    return { statusCode: 200, statusMessage: 'Todo deleted' }
+    return { statusCode: 200, message: 'Todo deleted' }
 
   } catch (error) {
     if (error instanceof ZodError) {
-      throw createError({ statusCode: 400, statusMessage: error.message })
+      throw createError({ statusCode: 400, message: error.message })
     }
-    throw createError({ statusCode: 400, statusMessage: 'Invalid body' })
+    throw createError({ statusCode: 400, message: 'Invalid body' })
   }
   
 })

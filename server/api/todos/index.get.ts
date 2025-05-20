@@ -16,13 +16,13 @@ export default defineEventHandler(async (event) => {
       })
       return todos
     } catch (error) {
-      throw createError({ statusCode: 500, statusMessage: 'Internal server error' })
+      throw createError({ statusCode: 500, message: 'Internal server error' })
     }
   }
 
   throw createError({
     statusCode: 401,
-    statusMessage: 'User not found'
+    message: 'User not found'
   })
 
 })

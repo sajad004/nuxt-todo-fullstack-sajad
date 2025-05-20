@@ -5,7 +5,7 @@ import { eq } from 'drizzle-orm'
 
 export default defineEventHandler(async (event) => {
   // Read body
-  const { id, text, completed } = await readBody(event)
+  const { id, text, description, completed } = await readBody(event)
   const session = await getUserSession(event)
 
   // Get user id
@@ -15,13 +15,14 @@ export default defineEventHandler(async (event) => {
   const todoSchema = z.object({
     id: z.number().int().positive(),
     text: z.string().min(3, "Text must be at least 3 character long"),
+    description: z.string().min(3, "Description must be at least 3 character long").optional(),
     completed: z.boolean(),
     userId: z.number().int().positive(),
   })
 
   // Validate body
   try {
-    todoSchema.parse({ id, text, completed, userId })
+    todoSchema.parse({ id, text, description, completed, userId })
     
     // Find todo by id
     const todo: Todo | undefined = await db.query.todos.findFirst({
@@ -29,23 +30,23 @@ export default defineEventHandler(async (event) => {
     })
 
     if (!todo) {
-      throw createError({ statusCode: 404, statusMessage: 'Todo not found' })
+      throw createError({ statusCode: 404, message: 'Todo not found' })
     }
 
     // Check if user is owner of todo
     if (todo.userId !== userId) {
-      throw createError({ statusCode: 403, statusMessage: 'Forbidden' })
+      throw createError({ statusCode: 403, message: 'Forbidden' })
     }
 
     // Update todo
-    const updatedTodo: Todo[] = await db.update(tables.todos).set({ text, completed }).where(eq(tables.todos.id, id)).returning()
+    const updatedTodo: Todo[] = await db.update(tables.todos).set({ text, description, completed }).where(eq(tables.todos.id, id)).returning()
 
     return updatedTodo[0]
 
   } catch (error) {
     if (error instanceof ZodError) {
-      throw createError({ statusCode: 400, statusMessage: error.message })
+      throw createError({ statusCode: 400, message: error.message })
     }
-    throw createError({ statusCode: 400, statusMessage: 'Invalid body' })
+    throw createError({ statusCode: 400, message: 'Invalid body' })
   }
 })

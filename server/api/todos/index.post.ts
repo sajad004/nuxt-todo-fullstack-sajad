@@ -4,7 +4,7 @@ import { z, ZodError } from 'zod'
 
 export default defineEventHandler(async (event) => {
   // Read body
-  const { text } = await readBody(event)
+  const { text, description } = await readBody(event)
   const session = await getUserSession(event)
 
   // Get user id
@@ -13,14 +13,15 @@ export default defineEventHandler(async (event) => {
   // Create Zod schema
   const todoSchema = z.object({
     text: z.string().min(3, "Text must be at least 3 character long"),
+    description: z.string().min(3, "Description must be at least 3 character long").optional(),
     userId: z.number().int().positive(),
   })
 
   // Validate body
   try {
-    todoSchema.parse({ text, userId })
+    todoSchema.parse({ text, description, userId })
     // Create todo
-    const newTodo: NewTodo = { text, userId }
+    const newTodo: NewTodo = { text, description, userId }
     // Insert todo
     const todo: Todo[] = await db.insert(tables.todos).values(newTodo).returning()
 
@@ -28,8 +29,8 @@ export default defineEventHandler(async (event) => {
     
   } catch (error) {
     if (error instanceof ZodError) {
-      throw createError({ statusCode: 400, statusMessage: error.message })
+      throw createError({ statusCode: 400, message: error.message })
     }
-    throw createError({ statusCode: 400, statusMessage: 'Invalid body' })
+    throw createError({ statusCode: 400, message: 'Invalid body' })
   }
 })
