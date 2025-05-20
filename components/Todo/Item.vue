@@ -49,13 +49,18 @@
 	<UCard class="mb-5 ">
 		<div class="flex items-center justify-between gap-2 w-full shadow-none">
 			<UCheckbox v-model="props.todo.completed" />
-			<input
-				ref="inputRef"
-				:class="{ 'line-through': props.todo.completed }"
-				v-model="props.todo.text"
-				:disabled="props.todo.completed || !editTodo"
-				class="bg-transparent disabled:text-gray-500 focus-visible:outline-0 focus-visible:border-b focus-visible:border-gray-300 w-full"
-			/>
+			<div class="flex flex-col gap-2">
+				<input
+					ref="inputRef"
+					:class="{ 'line-through': props.todo.completed }"
+					v-model="props.todo.text"
+					:disabled="props.todo.completed || !editTodo"
+					class="bg-transparent disabled:text-gray-500 focus-visible:outline-0 focus-visible:border-b focus-visible:border-gray-300 w-full"
+				/>
+				<p v-if="props.todo.description" class="w-full text-neutral-400 text-xs">
+					{{ props.todo.description }}
+				</p>
+			</div>
 			<UButton
 				icon="i-heroicons-pencil"
 				:variant="editTodo ? 'solid' : 'ghost'"
