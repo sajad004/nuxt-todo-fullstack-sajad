@@ -19,7 +19,7 @@
 	<div class="min-h-screen flex items-center justify-center bg-white-100 py-10 px-4">
 		<!-- Gradient border card wrapper -->
 		<div
-			class="w-full max-w-2xl rounded-lg p-px bg-gradient-to-br from-rose-300/60 via-amber-200/60 to-sky-300/60"
+			class="w-full max-w-2xl rounded-lg p-px bg-linear-to-r from-rose-300 via-amber-200 to-sky-300  bg-[length:200%_200%] animate-rotate"
 		>
 			<!-- Inner white card -->
 			<UCard class="ring-0">

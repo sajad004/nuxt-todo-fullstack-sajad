@@ -3,4 +3,13 @@
 
 @theme {
 	--font-sans: 'Public Sans', sans-serif;
+
+  --animate-rotate: rotate 2s ease-in-out infinite;
+  @keyframes rotate {
+    0% { background-position: 0% 50%; }
+		25% { background-position: 100% 50%; }
+    50% { background-position: 100% 100%; }
+    75% { background-position: 0% 100%; }
+    100% { background-position: 0% 50%; }
+  }
 }
