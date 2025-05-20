@@ -1,5 +1,5 @@
 <script setup>
-const { loggedIn, clear } = useUserSession()
+const { loggedIn, clear, session } = useUserSession()
 
 const router = useRouter()
 
@@ -27,6 +27,12 @@ const items = [
 					Nuxt <span class="text-(--ui-primary)">Todo</span>
 				</h1>
 			</ULink>
+			<div v-if="loggedIn" class="text-center">
+				<p class="text-lg">
+					Hello
+					<span class="font-bold">{{ session?.user?.firstName + ' ' + session?.user?.lastName }}</span>
+				</p>
+			</div>
 			<nav class="flex items-center gap-4" v-if="!loggedIn">
 				<UNavigationMenu :items="items" />
 				<GeneralColorModeButton />
