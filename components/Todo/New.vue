@@ -6,7 +6,7 @@ import type { FormSubmitEvent } from '@nuxt/ui'
 
 	const schema = z.object({
 		newTodo: z.string().min(3, 'New todo is required'),
-		description: z.string().optional(),
+		description: z.string().min(3, "Description must be at least 3 character long").optional(),
 	})
 
 	type Schema = z.output<typeof schema>
@@ -48,12 +48,12 @@ import type { FormSubmitEvent } from '@nuxt/ui'
 			v-model="state.newTodo"
 			placeholder="New Task ..."
 			@keyup.ctrl.delete="clearInput"
-			class="w-80 w-full"
+			class="w-full"
 		/>
 		<UTextarea
 			v-model="state.description"
 			placeholder="Task Description (optional)"
-			class="w-80 w-full"
+			class="w-full"
 		/>
 		<UButton type="submit" icon="i-lucide-plus" size="lg" variant="solid" class="w-full sm:w-auto self-start"> Add Todo </UButton>
 		<p class="text-xs text-gray-500 mt-2 flex items-center justify-center gap-1">
